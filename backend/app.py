@@ -2,7 +2,8 @@
 
 from flask import Flask, request, jsonify, render_template, make_response
 import joblib
-import pandas as pd
+import pandas as pd 
+import os
 from weather_api  import get_weather
 from prone_areas  import get_prone_areas
 from alert_system import send_emergency_alert
@@ -396,5 +397,7 @@ if __name__ == '__main__':
     print("\n" + "="*50)
     print("   AI BLACKSPOT SERVER STARTING...")
     print("="*50)
-    print("\n   Open browser: http://localhost:5000\n")
-    app.run(debug=True, port=5000)
+
+    port = int(os.environ.get("PORT", 7860))
+
+    app.run(host="0.0.0.0", port=port)
