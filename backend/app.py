@@ -14,10 +14,12 @@ app = Flask(
     static_folder='../frontend/static'
 )
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 print("[*] Loading model...")
-model           = joblib.load("model.pkl")
-feature_columns = joblib.load("feature_columns.pkl")
-encoders        = joblib.load("encoders.pkl")
+model           = joblib.load(os.path.join(BASE_DIR, "model.pkl"))
+feature_columns = joblib.load(os.path.join(BASE_DIR, "feature_columns.pkl"))
+encoders        = joblib.load(os.path.join(BASE_DIR, "encoders.pkl"))
 print("[*] Model loaded!")
 
 # ─────────────────────────────────────────
