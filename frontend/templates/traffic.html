@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Traffic Analysis - AI Blackspot</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><i class="fa fa-road"></i> AI Blackspot</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/predict">Predict</a></li>
+      <li><a href="/map">Map</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/prone">Prone Areas</a></li>
+      <li><a href="/traffic" class="active">Traffic</a></li>
+      <li><a href="/alert">Alerts</a></li>
+    </ul>
+  </nav>
+
+  <div style="padding:2rem 2.5rem;max-width:1000px;margin:0 auto">
+    <div style="margin-bottom:2rem">
+      <h1 style="color:#fff;font-size:1.8rem">🚦 Live Traffic Density Analysis</h1>
+      <p style="color:#aaa">Real-time traffic patterns based on accident data</p>
+    </div>
+
+    <!-- CITY SEARCH -->
+    <div style="display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap">
+      <select id="traffic-city"
+        style="background:#1a1d2e;border:1px solid #2a2d3e;color:#fff;
+               padding:10px 16px;border-radius:8px;outline:none;font-size:1rem">
+        <option value="Chennai">Chennai</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Pune">Pune</option>
+        <option value="Chandigarh">Chandigarh</option>
+      </select>
+      <button onclick="loadTraffic()"
+        style="padding:10px 24px;background:#e74c3c;color:#fff;border:none;
+               border-radius:8px;cursor:pointer;font-weight:700;font-size:1rem">
+        <i class="fa fa-rotate"></i> Analyze
+      </button>
+    </div>
+
+    <!-- LIVE STATUS CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+         gap:1rem;margin-bottom:2rem" id="status-cards">
+      <div class="dash-stat">
+        <h2 id="current-hour" style="color:#3498db">--</h2>
+        <p>Current Hour</p>
+      </div>
+      <div class="dash-stat">
+        <h2 id="traffic-density-val" style="color:#f39c12">--</h2>
+        <p>Traffic Density</p>
+      </div>
+      <div class="dash-stat">
+        <h2 id="traffic-score-val" style="color:#e74c3c">--</h2>
+        <p>Traffic Score</p>
+      </div>
+      <div class="dash-stat">
+        <h2 id="rush-hour-val">--</h2>
+        <p>Rush Hour</p>
+      </div>
+      <div class="dash-stat">
+        <h2 id="accidents-hour" style="color:#e74c3c">--</h2>
+        <p>Accidents This Hour</p>
+      </div>
+    </div>
+
+    <!-- TRAFFIC METER -->
+    <div style="background:#1a1d2e;border:1px solid #2a2d3e;border-radius:12px;
+         padding:1.5rem;margin-bottom:2rem">
+      <h3 style="color:#fff;margin-bottom:1rem">🚦 Traffic Congestion Meter</h3>
+      <div style="background:#0f1117;border-radius:8px;height:24px;overflow:hidden">
+        <div id="traffic-meter" style="height:100%;width:0%;
+             border-radius:8px;transition:width 1s;background:#2ecc71"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;
+           margin-top:0.5rem;font-size:0.8rem;color:#aaa">
+        <span>Low</span><span>Medium</span><span>High</span>
+      </div>
+    </div>
+
+    <!-- HOUR CHART -->
+    <div style="background:#1a1d2e;border:1px solid #2a2d3e;
+         border-radius:12px;padding:1.5rem;margin-bottom:2rem">
+      <h3 style="color:#fff;margin-bottom:1rem">📊 Accidents by Hour of Day</h3>
+      <canvas id="hourTrafficChart"></canvas>
+    </div>
+
+    <!-- DENSITY TABLE -->
+    <div style="background:#1a1d2e;border:1px solid #2a2d3e;border-radius:12px;padding:1.5rem">
+      <h3 style="color:#fff;margin-bottom:1rem">🕐 Hour-wise Traffic Density</h3>
+      <div id="density-table"></div>
+    </div>
+  </div>
+
+  <script>
+    let hourChart = null;
+
+    async function loadTraffic() {
+      const city = document.getElementById('traffic-city').value;
+      const res  = await fetch(`/api/traffic?city=${city}`);
+      const data = await res.json();
+
+      if (!data.success) return;
+
+      // Status cards
+      document.getElementById('current-hour').textContent    = data.current_hour + ':00';
+      document.getElementById('traffic-density-val').textContent = data.current_density.toUpperCase();
+      document.getElementById('traffic-score-val').textContent   = data.traffic_score + '%';
+      document.getElementById('rush-hour-val').textContent   = data.is_rush_hour ? '⚠ YES' : '✅ NO';
+      document.getElementById('rush-hour-val').style.color   = data.is_rush_hour ? '#e74c3c' : '#2ecc71';
+      document.getElementById('accidents-hour').textContent  = data.accidents_this_hour;
+
+      // Traffic meter
+      const meter = document.getElementById('traffic-meter');
+      meter.style.width      = data.traffic_score + '%';
+      meter.style.background = data.traffic_score >= 70 ? '#e74c3c'
+                             : data.traffic_score >= 45 ? '#f39c12' : '#2ecc71';
+
+      // Hour chart
+      const hours     = Array.from({length:24}, (_,i) => i);
+      const accidents = hours.map(h => data.hour_accidents[String(h)] || 0);
+      const colors    = hours.map(h => h === data.current_hour ? '#e74c3c' : '#3498db');
+
+      if (hourChart) hourChart.destroy();
+      hourChart = new Chart(document.getElementById('hourTrafficChart'), {
+        type: 'bar',
+        data: {
+          labels  : hours.map(h => h+':00'),
+          datasets: [{
+            label          : 'Accidents',
+            data           : accidents,
+            backgroundColor: colors,
+            borderRadius   : 4
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend : { labels: { color:'#fff' } },
+            tooltip: { backgroundColor:'#1a1d2e' }
+          },
+          scales: {
+            x: { ticks:{color:'#aaa'}, grid:{color:'#2a2d3e'} },
+            y: { ticks:{color:'#aaa'}, grid:{color:'#2a2d3e'} }
+          }
+        }
+      });
+
+      // Density table
+      const densityColors = { high:'#e74c3c', medium:'#f39c12', low:'#2ecc71' };
+      let tableHtml = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:0.5rem">';
+      hours.forEach(h => {
+        const density = data.hour_data[String(h)] || 'medium';
+        const color   = densityColors[density] || '#aaa';
+        const isNow   = h === data.current_hour;
+        tableHtml += `
+          <div style="background:${isNow ? color+'33' : '#0f1117'};
+               border:1px solid ${isNow ? color : '#2a2d3e'};
+               border-radius:8px;padding:0.6rem;text-align:center">
+            <div style="font-size:0.8rem;color:#aaa">${h}:00</div>
+            <div style="font-size:0.85rem;font-weight:600;color:${color}">
+              ${density.toUpperCase()}
+            </div>
+          </div>`;
+      });
+      tableHtml += '</div>';
+      document.getElementById('density-table').innerHTML = tableHtml;
+    }
+
+    window.onload = loadTraffic;
+  </script>
+</body>
+</html>

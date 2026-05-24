@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Blackspot Detection</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand"><i class="fa fa-road"></i> AI Blackspot</div>
+    <ul class="nav-links">
+      <li><a href="/" class="active">Home</a></li>
+      <li><a href="/predict">Predict</a></li>
+      <li><a href="/map">Map</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/prone">Prone Areas</a></li>
+      <li><a href="/traffic">Traffic</a></li>
+      <li><a href="/alert">Alerts</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">AI Powered Road Safety</div>
+      <h1>Detect Accident <span class="highlight">Blackspots</span> Before They Strike</h1>
+      <p>Our AI system analyzes weather, traffic, road type and time to predict accident risk in real time across Indian cities.</p>
+      <div class="hero-buttons">
+        <a href="/predict" class="btn btn-primary"><i class="fa fa-brain"></i> Get Prediction</a>
+        <a href="/map"     class="btn btn-outline"><i class="fa fa-map"></i> View Map</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="risk-card animated">
+        <div class="risk-header">Live Risk Monitor</div>
+        <div class="risk-circle red">
+          <span>82%</span><small>FATAL</small>
+        </div>
+        <div class="risk-details">
+          <span><i class="fa fa-cloud-rain"></i> Rainy</span>
+          <span><i class="fa fa-moon"></i> Night</span>
+          <span><i class="fa fa-car"></i> Highway</span>
+        </div>
+        <div class="alert-banner">⚠ High accident probability detected!</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="stat-card"><i class="fa fa-database stat-icon blue"></i><h2>20,000+</h2><p>Accident Records</p></div>
+    <div class="stat-card"><i class="fa fa-city stat-icon orange"></i><h2>8 Cities</h2><p>Across India</p></div>
+    <div class="stat-card"><i class="fa fa-bullseye stat-icon green"></i><h2>70%+</h2><p>Model Accuracy</p></div>
+    <div class="stat-card"><i class="fa fa-triangle-exclamation stat-icon red"></i><h2>100%</h2><p>Fatal Detection</p></div>
+  </section>
+
+  <section class="features-section">
+    <h2 class="section-title">What Our System Does</h2>
+    <div class="features-grid">
+      <div class="feature-card" onclick="window.location='/predict'">
+        <div class="feature-icon purple"><i class="fa fa-brain"></i></div>
+        <h3>AI Risk Prediction</h3>
+        <p>Enter weather, road type, time and get instant accident risk percentage powered by Random Forest ML.</p>
+        <span class="feature-link">Try it →</span>
+      </div>
+      <div class="feature-card" onclick="window.location='/map'">
+        <div class="feature-icon red"><i class="fa fa-map-location-dot"></i></div>
+        <h3>Live Blackspot Map</h3>
+        <p>View real accident blackspot locations across Indian cities on an interactive heatmap.</p>
+        <span class="feature-link">View map →</span>
+      </div>
+      <div class="feature-card" onclick="window.location='/dashboard'">
+        <div class="feature-icon blue"><i class="fa fa-chart-bar"></i></div>
+        <h3>Analytics Dashboard</h3>
+        <p>Charts showing accident trends by city, weather, hour and road type for data-driven insights.</p>
+        <span class="feature-link">View stats →</span>
+      </div>
+      <div class="feature-card" onclick="window.location='/prone'">
+        <div class="feature-icon orange"><i class="fa fa-triangle-exclamation"></i></div>
+        <h3>Prone Area Prediction</h3>
+        <p>Top 20 most dangerous locations ranked by AI danger score with map visualization.</p>
+        <span class="feature-link">View zones →</span>
+      </div>
+      <div class="feature-card" onclick="window.location='/traffic'">
+        <div class="feature-icon teal"><i class="fa fa-traffic-light"></i></div>
+        <h3>Traffic Density Analysis</h3>
+        <p>Hour-by-hour traffic patterns showing when roads are most dangerous in any city.</p>
+        <span class="feature-link">Analyze →</span>
+      </div>
+      <div class="feature-card" onclick="window.location='/alert'">
+        <div class="feature-icon green"><i class="fa fa-bell"></i></div>
+        <h3>Emergency Alert System</h3>
+        <p>Auto email alerts when fatal risk detected. Real-time warnings with night and weather boost.</p>
+        <span class="feature-link">View alerts →</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Enter Conditions</h3><p>Input weather, road type, time and traffic density</p></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-num">2</div><h3>AI Analyzes</h3><p>Random Forest model processes 8 features instantly</p></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-num">3</div><h3>Get Risk Score</h3><p>Receive risk percentage with color-coded danger level</p></div>
+      <div class="step-arrow">→</div>
+      <div class="step"><div class="step-num">4</div><h3>Take Action</h3><p>Follow smart advice to stay safe on the road</p></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <div>
+        <h3><i class="fa fa-road"></i> AI Blackspot Detection</h3>
+        <p>Making Indian roads safer with artificial intelligence.</p>
+      </div>
+      <div>
+        <h4>Pages</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/predict">Predict</a></li>
+          <li><a href="/map">Map</a></li>
+          <li><a href="/dashboard">Dashboard</a></li>
+          <li><a href="/prone">Prone Areas</a></li>
+          <li><a href="/traffic">Traffic</a></li>
+          <li><a href="/alert">Alerts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Tech Stack</h4>
+        <ul>
+          <li>Python + Flask</li>
+          <li>Random Forest ML</li>
+          <li>Leaflet.js Maps</li>
+          <li>Chart.js Analytics</li>
+          <li>OpenWeatherMap API</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Built with ❤ for Road Safety | B.Sc Computer Science Project</p>
+    </div>
+  </footer>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alerts - AI Blackspot</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><i class="fa fa-road"></i> AI Blackspot</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/predict">Predict</a></li>
+      <li><a href="/map">Map</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/prone">Prone Areas</a></li>
+      <li><a href="/traffic">Traffic</a></li>
+      <li><a href="/alert" class="active">Alerts</a></li>
+    </ul>
+  </nav>
+  <div class="alert-container">
+    <div class="alert-header">
+      <h1>🔔 Smart Alert System</h1>
+      <p>AI-generated road safety alerts based on current conditions</p>
+    </div>
+    <div class="predict-form" style="margin-bottom:2rem">
+      <h3 style="color:#fff;margin-bottom:1rem">Generate Live Alert</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" id="alert-city" placeholder="e.g. Chennai" value="Chennai"/>
+        </div>
+        <div class="form-group">
+          <label>Hour (0-23)</label>
+          <input type="number" id="alert-hour" min="0" max="23" value="23"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Weather</label>
+          <select id="alert-weather">
+            <option value="clear">☀ Clear</option>
+            <option value="rain" selected>🌧 Rain</option>
+            <option value="fog">🌫 Fog</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Traffic</label>
+          <select id="alert-traffic">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high" selected>High</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-predict" onclick="generateAlert()">
+        <i class="fa fa-bell"></i> Generate Alert
+      </button>
+    </div>
+    <div id="live-alert" style="display:none;margin-bottom:2rem"></div>
+    <h3 style="color:#fff;margin-bottom:1rem">Recent System Alerts</h3>
+    <div class="alert-item danger">
+      <div class="alert-icon">🔴</div>
+      <div class="alert-content"><h3>Fatal Risk — NH44 Highway, Delhi</h3><p>Heavy rain + night time + high traffic. Risk score: 91%. Avoid this route.</p></div>
+      <div class="alert-time">10 mins ago</div>
+    </div>
+    <div class="alert-item danger">
+      <div class="alert-icon">🔴</div>
+      <div class="alert-content"><h3>Fatal Risk — ECR Road, Chennai</h3><p>Foggy conditions at 2AM. Visibility critically low. Risk: 87%.</p></div>
+      <div class="alert-time">25 mins ago</div>
+    </div>
+    <div class="alert-item warning">
+      <div class="alert-icon">🟠</div>
+      <div class="alert-content"><h3>High Risk — Pune-Mumbai Expressway</h3><p>Peak hour traffic + light rain. Risk score: 68%. Drive carefully.</p></div>
+      <div class="alert-time">1 hour ago</div>
+    </div>
+    <div class="alert-item safe">
+      <div class="alert-icon">🟢</div>
+      <div class="alert-content"><h3>Safe — Marine Drive, Mumbai</h3><p>Clear weather, low traffic, daytime. Risk: 18%. Safe to travel.</p></div>
+      <div class="alert-time">3 hours ago</div>
+    </div>
+  </div>
+  <script src="/static/script.js"></script>
+</body>
+</html>

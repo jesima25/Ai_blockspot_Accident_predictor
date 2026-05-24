@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Predict Risk - AI Blackspot</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    @keyframes fadeIn {
+      from { opacity:0; transform:translateX(-10px); }
+      to   { opacity:1; transform:translateX(0); }
+    }
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(20px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .result-card.show { animation: slideUp 0.5s ease forwards; }
+    .form-group select:hover,
+    .form-group input:hover  { border-color: #555; }
+    .btn-predict { transition: all 0.2s; }
+    .btn-predict:hover { background:#c0392b; transform:translateY(-2px); box-shadow:0 4px 15px rgba(231,76,60,0.4); }
+    .feature-tag {
+      display:inline-block;background:rgba(52,152,219,0.15);
+      color:#3498db;border:1px solid rgba(52,152,219,0.3);
+      padding:3px 10px;border-radius:4px;font-size:0.75rem;
+      font-weight:600;margin-bottom:1rem;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><i class="fa fa-road"></i> AI Blackspot</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/predict" class="active">Predict</a></li>
+      <li><a href="/map">Map</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/prone">Prone Areas</a></li>
+      <li><a href="/traffic">Traffic</a></li>
+      <li><a href="/alert">Alerts</a></li>
+    </ul>
+  </nav>
+
+  <div class="predict-container">
+    <div class="predict-title">
+      <h1>🧠 Accident Risk Prediction</h1>
+      <p>Enter road conditions to get instant AI-powered risk analysis</p>
+      <div style="margin-top:0.8rem;display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap">
+        <span class="feature-tag">🌤 Live Weather</span>
+        <span class="feature-tag">🔊 Voice Alert</span>
+        <span class="feature-tag">🧠 AI Explainability</span>
+        <span class="feature-tag">📄 PDF Report</span>
+      </div>
+    </div>
+
+    <div class="predict-form">
+      <!-- LIVE WEATHER -->
+      <div style="background:#0f1117;border:1px solid #2a2d3e;border-radius:10px;
+           padding:1rem;margin-bottom:1.5rem">
+        <label style="color:#ccc;font-size:0.9rem;font-weight:500">
+          <i class="fa fa-cloud-sun"></i> Auto-fetch Live Weather
+        </label>
+        <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
+          <input type="text" id="weather-city" placeholder="Enter city (e.g. Chennai)"
+            style="flex:1;padding:0.6rem 1rem;background:#1a1d2e;border:1px solid #2a2d3e;
+                   border-radius:8px;color:#fff;outline:none;transition:border-color 0.2s"/>
+          <button onclick="fetchWeather()"
+            style="padding:0.6rem 1.2rem;background:#3498db;color:#fff;border:none;
+                   border-radius:8px;cursor:pointer;font-weight:600;transition:all 0.2s">
+            <i class="fa fa-cloud-arrow-down"></i> Fetch
+          </button>
+        </div>
+        <div id="weather-result" style="margin-top:0.8rem;display:none;
+             color:#2ecc71;font-size:0.9rem"></div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fa fa-city"></i> City Name</label>
+          <input type="text" id="city" placeholder="e.g. Chennai, Madurai" value="Chennai"/>
+        </div>
+        <div class="form-group">
+          <label><i class="fa fa-clock"></i> Hour of Day (0-23)</label>
+          <input type="number" id="hour" min="0" max="23" value="22"/>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fa fa-cloud-sun"></i> Weather Condition</label>
+          <select id="weather">
+            <option value="clear">☀ Clear</option>
+            <option value="rain" selected>🌧 Rain</option>
+            <option value="fog">🌫 Fog</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><i class="fa fa-road"></i> Road Type</label>
+          <select id="road_type">
+            <option value="highway">Highway</option>
+            <option value="urban" selected>Urban</option>
+            <option value="rural">Rural</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label><i class="fa fa-car"></i> Traffic Density</label>
+          <select id="traffic_density">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high" selected>High</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><i class="fa fa-eye"></i> Visibility</label>
+          <select id="visibility">
+            <option value="high">High</option>
+            <option value="medium">Medium</option>
+            <option value="low" selected>Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label><i class="fa fa-toggle-on"></i> Additional Conditions</label>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" id="is_weekend"/> Weekend
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="is_peak_hour" checked/> Peak Hour
+          </label>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label><i class="fa fa-gauge"></i> Risk Score (0.0 - 1.0)</label>
+        <input type="number" id="risk_score" min="0" max="1" step="0.01" value="0.75"/>
+      </div>
+
+      <button class="btn-predict" onclick="predictRisk()">
+        <i class="fa fa-brain"></i> Analyze Risk
+      </button>
+    </div>
+
+    <!-- RESULT CARD -->
+    <div class="result-card" id="result-card">
+
+      <div class="result-risk-circle" id="result-circle">
+        <span class="result-pct" id="result-pct">0%</span>
+        <small class="result-label" id="result-label">ANALYZING</small>
+      </div>
+
+      <div class="result-level"   id="result-level"></div>
+      <div class="result-message" id="result-message"></div>
+
+      <!-- CONFIDENCE BARS -->
+      <div class="confidence-bars">
+        <h4 style="color:#fff;margin-bottom:1rem">Confidence Breakdown</h4>
+        <div class="conf-label"><span>🔴 Fatal</span><span id="conf-fatal-pct">0%</span></div>
+        <div class="conf-bar-bg"><div class="conf-bar fatal" id="conf-fatal" style="width:0%"></div></div>
+        <div class="conf-label"><span>🟠 Major</span><span id="conf-major-pct">0%</span></div>
+        <div class="conf-bar-bg"><div class="conf-bar major" id="conf-major" style="width:0%"></div></div>
+        <div class="conf-label"><span>🟢 Minor</span><span id="conf-minor-pct">0%</span></div>
+        <div class="conf-bar-bg"><div class="conf-bar minor" id="conf-minor" style="width:0%"></div></div>
+      </div>
+
+      <!-- AI EXPLAINABILITY BOX -->
+      <div id="explain-box" style="display:none;margin-top:1.5rem;
+           background:#0f1117;border:1px solid #2a2d3e;
+           border-left:4px solid #9b59b6;border-radius:10px;padding:1.2rem">
+      </div>
+
+      <!-- SMART ALERT -->
+      <div class="alert-box" id="alert-box" style="display:none"></div>
+
+      <!-- PDF BUTTON -->
+      <button id="pdf-btn" onclick="downloadPDF()"
+        style="display:none;margin-top:1.5rem;width:100%;padding:0.9rem;
+               background:#9b59b6;color:#fff;border:none;border-radius:8px;
+               font-size:1rem;font-weight:700;cursor:pointer;
+               transition:all 0.2s">
+        <i class="fa fa-file-pdf"></i> Download PDF Report
+      </button>
+
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

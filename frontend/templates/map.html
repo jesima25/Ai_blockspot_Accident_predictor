@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blackspot Map - AI Blackspot</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand"><i class="fa fa-road"></i> AI Blackspot</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/predict">Predict</a></li>
+      <li><a href="/map" class="active">Map</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/prone">Prone Areas</a></li>
+      <li><a href="/traffic">Traffic</a></li>
+      <li><a href="/alert">Alerts</a></li>
+    </ul>
+  </nav>
+  <div class="map-container">
+    <div class="map-header">
+      <h1>🗺 Live Blackspot Map</h1>
+      <div class="map-legend">
+        <div class="legend-item"><div class="legend-dot red"></div> Fatal</div>
+        <div class="legend-item"><div class="legend-dot orange"></div> Major</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;align-items:center">
+      <select id="city-filter" onchange="filterMap()"
+        style="background:#1a1d2e;border:1px solid #2a2d3e;color:#fff;padding:8px 14px;border-radius:8px;outline:none">
+        <option value="all">All Cities</option>
+        <option value="Delhi">Delhi</option>
+        <option value="Mumbai">Mumbai</option>
+        <option value="Chennai">Chennai</option>
+        <option value="Bangalore">Bangalore</option>
+        <option value="Kolkata">Kolkata</option>
+        <option value="Hyderabad">Hyderabad</option>
+        <option value="Pune">Pune</option>
+        <option value="Chandigarh">Chandigarh</option>
+      </select>
+      <select id="severity-filter" onchange="filterMap()"
+        style="background:#1a1d2e;border:1px solid #2a2d3e;color:#fff;padding:8px 14px;border-radius:8px;outline:none">
+        <option value="all">All Severity</option>
+        <option value="fatal">Fatal Only</option>
+        <option value="major">Major Only</option>
+      </select>
+      <button onclick="toggleHeatmap()" id="heatmap-btn"
+        style="padding:8px 16px;background:#e74c3c;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:600">
+        🔥 Show Heatmap
+      </button>
+      <div style="color:#aaa;font-size:0.9rem;padding:8px 0">
+        Blackspots: <span id="spot-count" style="color:#fff;font-weight:700">Loading...</span>
+      </div>
+    </div>
+    <div id="map"></div>
+  </div>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js"></script>
+  <script src="/static/map.js"></script>
+</body>
+</html>

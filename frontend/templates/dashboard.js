@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - AI Blackspot</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-brand"><i class="fa fa-road"></i> AI Blackspot</div>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/predict">Predict</a></li>
+      <li><a href="/map">Map</a></li>
+      <li><a href="/dashboard" class="active">Dashboard</a></li>
+      <li><a href="/alert">Alerts</a></li>
+    </ul>
+  </nav>
+
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <h1>📊 Analytics Dashboard</h1>
+      <p>Accident statistics across Indian cities 2022–2025</p>
+    </div>
+
+    <div class="dashboard-stats">
+      <div class="dash-stat">
+        <h2 id="total-count">-</h2>
+        <p>Total Accidents</p>
+      </div>
+      <div class="dash-stat">
+        <h2 id="fatal-count" style="color:#e74c3c">-</h2>
+        <p>Fatal Cases</p>
+      </div>
+      <div class="dash-stat">
+        <h2 id="major-count" style="color:#f39c12">-</h2>
+        <p>Major Cases</p>
+      </div>
+      <div class="dash-stat">
+        <h2 id="minor-count" style="color:#2ecc71">-</h2>
+        <p>Minor Cases</p>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <h3>🏙 Accidents by City</h3>
+        <canvas id="cityChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>⚠ Accidents by Severity</h3>
+        <canvas id="severityChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>🌦 Accidents by Weather</h3>
+        <canvas id="weatherChart"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3>🛣 Accidents by Road Type</h3>
+        <canvas id="roadChart"></canvas>
+      </div>
+      <div class="chart-card" style="grid-column: 1/-1">
+        <h3>🕐 Accidents by Hour of Day</h3>
+        <canvas id="hourChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>
