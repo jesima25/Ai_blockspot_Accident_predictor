@@ -105,7 +105,7 @@
   <script>
     let hourChart = null;
 
-    async function loadTraffic() {
+    async function loadTraffic() { if (hourChart) { hourChart.destroy(); hourChart = null; }
       const city = document.getElementById('traffic-city').value;
       const res  = await fetch(`/api/traffic?city=${city}`);
       const data = await res.json();
