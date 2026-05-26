@@ -110,7 +110,7 @@
       const res  = await fetch(`/api/traffic?city=${city}`);
       const data = await res.json();
 
-      if (!data.success) return;
+      if (!data.success) return; data.current_hour = new Date().getHours();
 
       // Status cards
       document.getElementById('current-hour').textContent    = data.current_hour + ':00';
