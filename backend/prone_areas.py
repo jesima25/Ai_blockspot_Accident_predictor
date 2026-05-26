@@ -3,11 +3,13 @@
 
 import pandas as pd
 import numpy as np
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def get_prone_areas():
     """Return top 20 accident prone areas with risk analysis"""
     try:
-        df = pd.read_csv("accident_data.csv")
+        df = pd.read_csv(os.path.join(BASE_DIR, "accident_data.csv"))
 
         # Severity score mapping
         severity_score = {'fatal': 3, 'major': 2, 'minor': 1}
