@@ -131,7 +131,7 @@
       const accidents = hours.map(h => data.hour_accidents[String(h)] || 0);
       const colors    = hours.map(h => h === data.current_hour ? '#e74c3c' : '#3498db');
 
-      if (hourChart) hourChart.destroy();
+      try { if (hourChart) { hourChart.destroy(); hourChart = null; } } catch(e) {}
       hourChart = new Chart(document.getElementById('hourTrafficChart'), {
         type: 'bar',
         data: {
