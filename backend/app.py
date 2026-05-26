@@ -188,7 +188,7 @@ def predict():
 @app.route('/api/blackspots', methods=['GET'])
 def get_blackspots():
     try:
-        df        = pd.read_csv("accident_data.csv")
+        df        = pd.read_csv(os.path.join(BASE_DIR, "accident_data.csv"))
         high_risk = df[df['accident_severity'].isin(['fatal','major'])].copy()
         spots     = high_risk[['latitude','longitude','city',
                                'accident_severity','weather',
@@ -214,7 +214,7 @@ def get_blackspots():
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
     try:
-        df = pd.read_csv("accident_data.csv")
+        df = pd.read_csv(os.path.join(BASE_DIR, "accident_data.csv"))
         return jsonify({
             "success"        : True,
             "total_accidents": len(df),
@@ -245,7 +245,7 @@ def prone_areas():
 def get_traffic():
     try:
         city = request.args.get('city', 'Chennai')
-        df   = pd.read_csv("accident_data.csv")
+        df   = pd.read_csv(os.path.join(BASE_DIR, "accident_data.csv"))
 
         city_data = df[df['city'].str.lower() == city.lower()]
 
