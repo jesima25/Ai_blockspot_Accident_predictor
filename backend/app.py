@@ -278,7 +278,7 @@ def get_traffic():
         return jsonify({
             "success"          : True,
             "city"             : city,
-            "current_hour"     : current_hour,
+            "current_hour": current_hour, "timezone": "UTC",
             "current_density"  : current_density,
             "traffic_score"    : traffic_score,
             "accidents_this_hour": current_accidents,
