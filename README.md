@@ -240,8 +240,4 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-<<<<<<< HEAD
 ## ⭐ If you found this useful please give it a star!
-=======
-## ⭐ If you found this useful please give it a star!
->>>>>>> 4a2d5ba7fe2a8c17df93bd646e7bbf6273e98401
