@@ -226,7 +226,11 @@ This project was built to make Indian roads safer using machine learning and dat
 ## 🔗 Links
 
 - 🚀 **Live Demo** — [https://jesima932-ai-blackspot-predictor.hf.space/](https://jesima932-ai-blackspot-predictor.hf.space/)
+<<<<<<< HEAD
 - 💻 **GitHub** — [https://github.com/jesima25](https://github.com/jesima25)
+=======
+- 💻 **GitHub** — [https://github.com/jesima25/Ai_blockspot_Accident_predictor](https://github.com/jesima25)
+>>>>>>> 4a2d5ba7fe2a8c17df93bd646e7bbf6273e98401
 
 ---
 
@@ -236,4 +240,8 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
+<<<<<<< HEAD
 ## ⭐ If you found this useful please give it a star!
+=======
+## ⭐ If you found this useful please give it a star!
+>>>>>>> 4a2d5ba7fe2a8c17df93bd646e7bbf6273e98401
